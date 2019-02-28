@@ -12,9 +12,8 @@ import time
 parentPath=str(Path(__file__).resolve().parents[1])
 #sys.path.append(parentPath)
 
-from tests import hrFromHrv as hrv,hrFromGreen as green, hrFromPca as pca,	\
-					hrFromDynHrv as dynHrv,hrFromDynGreen as dynGreen,hrFromDynPca as dynPca,\
-					hrFromHrvTry as hrvT, hrFromCirGreen as cirGreen # tests
+from tests import hrFromGreen as green,	\
+					hrFromCirGreen as cirGreen, hrFromCirGreen30 as cirGreen30,hrFromCirGreen15 as cirGreen15 # tests
 
 def giveCorrectFilename(stringToSay, isVideo):
 	'''
@@ -56,11 +55,10 @@ def determineTheHRs(filePath):
 	'''
 	hrs=list()
 	hrs.append(green.hrFromGreen(filePath))
-	hrs.append(pca.hrFromPca(filePath))
-	hrs.append(hrv.hrFromHrv(filePath))
-	# the try ones
-	hrs.append(hrvT.hrFromHrvTry(filePath))
+	hrs.append(cirGreen15.hrFromCirGreen15(filePath))
+	hrs.append(cirGreen30.hrFromCirGreen30(filePath))
 	hrs.append(cirGreen.hrFromCirGreen(filePath))
+	
 	# determine the hr series in all methods
 	for hr in hrs:
 		hr.determineHeartRate()
@@ -139,7 +137,7 @@ def meanDiffHtruthVsCalculated(hrTruth,hrCalc):
 		it will give the mean difference between the 2 series (This compare can change after to give other values)
 	'''
 	diff=list()
-	for i in range (10), len(hrTruth)):	#10 just to avoid the first 10 seconds because they will be surely wrong
+	for i in range (10, len(hrTruth)): #10 just to avoid the first 10 seconds because they will be surely wrong
 		if((not math.isnan(hrCalc[i][1])) and (not math.isnan(hrTruth[i][1]))):
 			diff.append(np.abs(hrTruth[i][1]-hrCalc[i][1]))	
 	return np.mean(diff)
@@ -279,43 +277,39 @@ if __name__=='__main__':
 	for row in allHr[0].getHeartRate():
 		print (row)
 	'''
-	
+	'''
 	print ("\n truth\n")
 	for row in hrTruth:
 		print (row)
+	'''
 	
 	# condition made for compatibility between the 2 sets
 	# Calculate the min and the max distances
 	minsNmaxs=list()
 	if (len(allHr[0].getHeartRate()[1:])<=len(meanHrTruth[1:])):
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[0].getHeartRate()[1:]))
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[1].getHeartRate()))	#pca
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[2].getHeartRate()[1:]))
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[3].getHeartRate()[1:])) # test hrv
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[4].getHeartRate()[1:])) # test green
+		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[0].getHeartRate()[1:])) # green
+		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[1].getHeartRate()[1:])) # green 15
+		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[2].getHeartRate()[1:])) # green 30
+		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[3].getHeartRate()[1:])) # green 45
 	else:
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[0].getHeartRate()[1:-1]))
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[1].getHeartRate()[:-1]))	#pca
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[2].getHeartRate()[1:-1]))
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[3].getHeartRate()[1:-1])) # test hrv
-		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[4].getHeartRate()[1:-1])) # test cir green
+		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[0].getHeartRate()[1:-1])) # green
+		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[1].getHeartRate()[1:-1]))	# green 15
+		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[2].getHeartRate()[1:-1])) # green 30
+		minsNmaxs.append(maxValueTruthVsCalculated(meanHrTruth[1:], allHr[3].getHeartRate()[1:-1])) # green 45
 		
 	# condition made for compatibility between the 2 sets
 	#Calculate the mean difference of the series
 	means=list()
-	print("len pca: "+str(len(allHr[1].getHeartRate())))
 	if (len(allHr[0].getHeartRate()[1:])<=len(meanHrTruth[1:])):
-		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[0].getHeartRate()[1:]))
-		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[1].getHeartRate()))
+		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[0].getHeartRate()[1:])) 
+		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[1].getHeartRate()[1:]))
 		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[2].getHeartRate()[1:]))
-		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[3].getHeartRate()[1:])) # test hrv
-		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[4].getHeartRate()[1:])) # test cir green
+		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[3].getHeartRate()[1:]))
 	else:
 		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[0].getHeartRate()[1:-1]))
-		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[1].getHeartRate()[:-1]))
+		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[1].getHeartRate()[1:-1]))
 		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[2].getHeartRate()[1:-1])) 
-		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[3].getHeartRate()[1:-1])) # test hrv
-		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[4].getHeartRate()[1:-1])) # test cir green
+		means.append(meanDiffHtruthVsCalculated(meanHrTruth[1:],allHr[3].getHeartRate()[1:-1]))
 
 	print() #just to clear a bit
 	for i in range(0,len(allHr)):
@@ -344,7 +338,7 @@ if __name__=='__main__':
 	
 	print()		#just to clear a bit
 	if(args["save"]):
-		resultName='resultsVideoHr.csv'
+		resultName='resultsVideoGreenHr.csv'
 		saveMeansOnFile(means, allHr,videofile,resultName)
 		print()		#just to clear a bit
 	

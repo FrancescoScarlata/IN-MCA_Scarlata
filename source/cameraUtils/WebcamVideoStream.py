@@ -16,6 +16,7 @@ class WebcamVideoStream:
 
 	def start(self):
 		# start the thread to read frames from the video stream
+		#print("[info webcamStreamForHRV] : start")
 		self.t = Thread(target=self.update, args=())
 		self.t.daemon = True
 		self.t.start()

@@ -36,18 +36,17 @@ def meanHrPerWindow(hrMeasurements, lenOfHrCalculations, intervalScale,timeWindo
 	'''
 	index=0
 	meanHr=list()
+	value=np.nan
 	for i in range (0,lenOfHrCalculations):
-		hrLine=list()
 		for j in range (index, len(hrMeasurements)):
-			if((i)*timeWindow*intervalScale<=hrMeasurements[j][0] and (i+1)*timeWindow*intervalScale>=hrMeasurements[j][0]):
-				hrLine.append(hrMeasurements[j][1])
-			else:
-				meanHr.append([(i+1)*timeWindow, np.mean(hrLine)])
-				#print(meanHr[-1])
+		#takes just the first element in the interval. No interpolation, so when there are no elements, takes the last one memorized
+			if((i+1)*timeWindow*intervalScale<=hrMeasurements[j][0] and (i+2)*timeWindow*intervalScale>=hrMeasurements[j][0]):
+				value=hrMeasurements[j][1]
+				meanHr.append([(i+1)*timeWindow, value])
 				index=j
 				#print ("mean i: "+ str(meanHr[i]))
 				break
-				
+			
 	return meanHr
 
 

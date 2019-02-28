@@ -1,18 +1,19 @@
 import cv2
 import numpy as np
+import sys
 import time
-from cameraUtils import WebcamStreamForHRV as web
 from pathlib import Path
 import os.path
+from cameraUtils import WebcamStreamForHRV as web
 
 try:
-	import functions
+	from funzioni1 import bpm_elaboration, adjustList, fps_elaboration
 except ImportError:
-	from HRV import functions
+	from .funzioni1 import bpm_elaboration, adjustList, fps_elaboration
 
 sourcePath=str(Path(__file__).resolve().parents[1])
 	
-def determineMeans(vs,red,green,blue,oldTimes, x1, y1, x2, y2):
+def determineMeans(vs,green,oldTimes, x1, y1, x2, y2):
 	'''
 	This function is called for make the mean frames.
 	It will:
@@ -22,72 +23,62 @@ def determineMeans(vs,red,green,blue,oldTimes, x1, y1, x2, y2):
 	'''
 	frames, times = vs.getFramesAndTime() # reads from the vs
 	#It will add the mean of just the new ones
-	for i in range(0,len(frames)): # frames in rgb. the frame is BGR
-		red.append(np.mean(frames[i][y1:y2,x1:x2,2]))
-		green.append(np.mean(frames[i][y1:y2,x1:x2,1]))
-		blue.append(np.mean(frames[i][y1:y2,x1:x2,0]))
-		oldTimes.append(times[i])
+	if(len(green) < len(frames)):
+		for i in range(len(green),len(frames)): # frames in rgb. the frame is BGR
+			green.append(np.mean(frames[i][y1:y2,x1:x2,1]))
+			oldTimes.append(times[i])
 
-	return red,green, blue, oldTimes
+	return green, oldTimes
+	
+	
+def greenElaboration(camSource=0):
+	'''
+	Script adapted from the arrota project. It uses the ica mode to calculate the bpm series.
+	The input is the camera source number (0 is the default one)
+	'''
 
-def rHRVElaboration(camSource):
-	""" 
-	This script is responsible for the main behaviour of the feature.
-	 It should:
-	 1) activate and release the camera in order to capture the frames
-	 2) read the frames- > from a thread
-	 3) do the face detection & relative skin detection
-	 4) Uniform samples (in time)
-	 5) Average of the skin pixel to obtain a triplet of RGB values
-	 6) Concatenate the triplets to obtain the RGB temporal trace.
-	 7) Traces pre-processed by zero-mean
-	 8) Detrend using smoothness priors approach
-	 9) band-pass filtered with Butterworth filter (cut off freqs 0.7 and 3.5Hz)
-	 10) Extraction of the rPPG signal using CHROM (chrominance-based method)
-	 11) Calculate peaks in the rPPG signal to calcolate the rHRV signal.
-	 12) calculate the mean ibi to determine the heart rate
-	 NOTE: some of the script is taken from the Arrotta IN project, 
-		   this is an acknowledgement to that.
-	 """
 	# calling the thread responsible for the webcam readings 
-	vs = web.WebcamStreamForHRV(src=camSource).start() #to change when this becomes a function
-
-
+	vs = web.WebcamStreamForHRV(src=camSource).start() #to change when this becomes a function	
+	face_cascade = cv2.CascadeClassifier(os.path.join(sourcePath,'haarcascade_frontalface_default.xml'))
+	
+	#variables
 	frame_width = vs.getWidth()
 	frame_height = vs.getHeight()
-	#print( str(frame_height) + "    " + str(frame_width))
-	face_cascade = cv2.CascadeClassifier(os.path.join(sourcePath,'haarcascade_frontalface_default.xml')) # taks the cascade classifier
-
-	# Variables
+	
 	redCol = (0, 0, 255) 		# red color in BGR
-	greenCol= (0, 255, 0)
+	greenCol= (0, 255, 0)		# green color in BGR
 	tsize = 3					#Dimension of the time elements
 
 	max_samples = 300			# number of frames to collect before end
 	remaining = -1      		# const to say when it is the end
-	times = list()
-	red_means = list()		# the list of the forehead component means
-	green_means = list()
-	blue_means = list()
 	t0=0
 	bpm=0
-	bpms=list()
-
-	firstTime= True
-	timeBetweenCalculations=0 	#a variable to wait before recalculate the hrv
-
+	
+	times = list()
+	bpms= list()					# a series with the second in question and the bpm calculated for that second
+	means = list()
+	
+	firstTime = True
+	secondsBeforeNewLine=20			# cosmetic variable to set after how many second-points it should have a new line
+	red_means=list()
+	means=list()
+	blue_means=list()
+	
 	# variables to not calculate everytime
 	leftOffset=				int(frame_width/21) 		# around 30 in offeset with 640 as frame width
 	highHeightOffset=		int(frame_height* 3/24) 	# 60 in offeset with 480 as frame height
 	lowHeightOffset=		int(frame_height* 21/24) 	# 420 in offeset with 480 as frame height
 	heightOffsetSeconds=	int(frame_height* 5/24) 	# 100 in offeset with 480 as frame height
+	timeBetweenCalculations=0 	#a variable to wait before recalculate the bpm
 
-	fps=1 # just a default value to define the variable
+	print("starting the green webcam mode...")
+	print("please wait while it is calculating:")	
+	
 	# first loop: it takes the frames, saves the means and works on them
 	while(True):
 		frame = vs.read()
 		if time.clock() > 3:    		# skip the first seconds to setup the focus of the camera
-			if 0 <= max_samples-len(red_means) and remaining!=-1:
+			if 0 <= max_samples-len(means) and remaining!=-1:
 				cv2.putText(frame, str(remaining), (leftOffset, heightOffsetSeconds), 
 				cv2.FONT_HERSHEY_SIMPLEX, tsize, redCol) 		# the countdown displayed
 
@@ -95,62 +86,63 @@ def rHRVElaboration(camSource):
 			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 			faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
-			if len(faces) == 1: 		#if the detection is of just 1 face 
+			if len(faces) == 1: 		#The detection is of just 1 face 
 				cv2.putText(frame, "Please, don't move", (leftOffset, lowHeightOffset), cv2.FONT_HERSHEY_SIMPLEX, tsize-2, redCol, 1, cv2.LINE_AA)  # just a warning
 				for (x,y,w,h) in faces:
-					 # static Skin detection
+					#Skin detection of the foreground
 					reducedWidth = int(w * 0.63)
 					modifiedX = int(w * 0.15)
 					reduceHeigh = int(h * 0.25)
 					inizioY = int(h * 0.1)
 					frontX = int(w - reducedWidth)
-
 					
 					# Picking the coordinates of the forehead
 					foreheadY = y+inizioY	
 					foreheadX = x+frontX
 					foreheadX2 = x+reducedWidth
 					foreheadY2 = y+reduceHeigh
-						
+					
+					# initial time and start the savings
 					if firstTime:
 						firstTime = False
-						t0 = time.clock()			# initial time
+						t0 = time.clock()			
 						vs.startSaving()	
-					cv2.rectangle(frame, (foreheadX, foreheadY), (foreheadX2, foreheadY2), greenCol, 2) # the rectangle that will show on the forehead
+					# Note: put it down when it determines the foreground to pass
+					#cv2.rectangle(frame, (foreheadX, foreheadY), (foreheadX2, foreheadY2), greenCol, 2) # the rectangle that will shown on the forehead
 			else:
 				if len(faces) == 0:
 					cv2.putText(frame, "No face detected...", (leftOffset, lowHeightOffset), cv2.FONT_HERSHEY_SIMPLEX, 1, redCol)
 				else:
 					cv2.putText(frame, "Too many faces...", (leftOffset, lowHeightOffset), cv2.FONT_HERSHEY_SIMPLEX, 1, redCol)
-
-			if len(times) > 9 and len(red_means)>0:      # wait some frames before to start the calculations of the bpm
-				#the calculation
-				# calculates not for each frame but for each second more or less, because the user won't understand the difference between time+0.5 or time +1 seconds 
+					
+			if len(times) > 9 and len(means)>0:      # wait some frames before to start the calculations of the bpm
+				#	The CALCULATION
+				# calculates for each second more or less, because the user won't understand the difference between time+0.5 or time +1 seconds 
 				if time.clock()-timeBetweenCalculations>= 1 :			
 					timeBetweenCalculations=time.clock()
 					 
 					# determines the means for the new frames
 					if(not vs.isNotSaving):
-						red_means,green_means,blue_means,times = determineMeans(vs,red_means,green_means,blue_means, times, foreheadX, foreheadY, foreheadX2, foreheadY2 )
+						means,times = determineMeans(vs,means, times, foreheadX, foreheadY, foreheadX2, foreheadY2 )
+						cv2.rectangle(frame, (foreheadX, foreheadY), (foreheadX2, foreheadY2), greenCol, 2) # the rectangle that will be shown on the forehead
 					#print("After determine red : "+str(len(red_means))+ "and times: "+str(len(times)))
 					
-					if not len(times) == len(red_means): 					# when the two lenghts are different, for some reasons
-						print("[info check len(times) != len(red_means)] different len: "+str(len(times))+" , "+ str(len(red_means)))
-						red_means = functions.adjustList(red_means, times)
-						green_means = functions.adjustList(green_means, times)
-						blue_means = functions.adjustList(blue_means, times)
-					
-					fps = functions.fps_elaboration(times)
+					if not len(times) == len(means): 					# when the two lenghts are different, for some reasons
+						print("[info check len(times) != len(red_means)] different len: "+str(len(times))+" , "+ str(len(means)))
+						means = adjustList(means, times)
+					fps = fps_elaboration(times)
 
-					bpm,state=functions.hrElaboration(red_means, green_means, blue_means, times, fps)
+					bpm=bpm_elaboration(means, fps,times)
 					bpms.append([time.clock()-t0, int(bpm)])
+					# this works for when there is a time window to investigate. 30 is for 30 seconds
 					if(fps*30>250):
 						max_samples=int(fps)*30
 				else:
+					#TO DO: 35 is static. we should need a proportion time
 					remaining = int(35+t0-time.clock()) 	#probably to change with a dynamic remaining
-					
 					#print("time passed after the last check: "+ str(timeBetweenCalculations))
-				if(bpm>0)	:
+					
+				if(bpm>0):	# In this way we won't show non positive bpm (the start or wrong calculations)
 					cv2.putText(frame, "bpm: " + str(int(bpm)), (foreheadX-25, foreheadY-45), cv2.FONT_HERSHEY_SIMPLEX, tsize-2, redCol) # display the bpm	
 			else:
 				cv2.putText(frame, "Starting...", (leftOffset, highHeightOffset), cv2.FONT_HERSHEY_SIMPLEX, 1, redCol)	# second message
@@ -159,15 +151,16 @@ def rHRVElaboration(camSource):
 					timeBetweenCalculations=time.clock()
 					# determines the means for the new frames
 					if(not vs.isNotSaving):
-						red_means,green_means,blue_means,times= determineMeans(vs,red_means,green_means,blue_means, times, foreheadX, foreheadY, foreheadX2, foreheadY2)
+						means,times= determineMeans(vs,means, times, foreheadX, foreheadY, foreheadX2, foreheadY2)
+						cv2.rectangle(frame, (foreheadX, foreheadY), (foreheadX2, foreheadY2), greenCol, 2) # the rectangle that will be shown on the forehead
 					cv2.imshow('Webcam', frame)
 				
 		else:
 			cv2.putText(frame, "Loading...", (leftOffset, highHeightOffset), cv2.FONT_HERSHEY_SIMPLEX, tsize-2, redCol) # first message
 			cv2.putText(frame, "Please, take off your glasses", (leftOffset, lowHeightOffset), cv2.FONT_HERSHEY_SIMPLEX, tsize-2, redCol, 1, cv2.LINE_AA) # just a warning
-			cv2.imshow('Webcam', frame)
+			#cv2.imshow('Webcam', frame)
 
-		if time.clock() >= 180:
+		if time.clock() >= 180:	# this is ok only if the time of invastigation is under the 180 seconds
 			print("[Debug time clock>180] over the time break")
 			vs.stop()
 			cv2.destroyAllWindows()
@@ -185,10 +178,10 @@ def rHRVElaboration(camSource):
 	#last calculation after the loop
 	#print("last before rppg. red : "+str(len(red_means))+ " and times: "+str(len(times)))		
 	try:
-		bpm,state=functions.hrElaboration(red_means, green_means, blue_means, times, fps,True)
+		bpm=bpm_elaboration(means, fps,times)
 		bpms.append([time.clock()-t0, int(bpm)])
 	except ValueError as e:								#the butterworth doesn't work
-		#print(" last bpm.ValueError: {0}".format(e))
+		print(" last bpm.ValueError: {0}".format(e))
 		vs.stop()
 		cv2.destroyAllWindows()
 		return -1
@@ -215,3 +208,9 @@ def rHRVElaboration(camSource):
 	vs.stop()
 	cv2.destroyAllWindows() 
 	return bpms
+	
+	
+	
+	
+
+

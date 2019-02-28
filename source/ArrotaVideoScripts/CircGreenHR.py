@@ -15,6 +15,8 @@ def greenElaboration(filepath, showVideo=False):
 	'''
 	Script adapted from the arrota project from the webcam to the video use
 	It uses the ica mode to calculate the bpm series
+	This is a variant of the classic mode in which the series is given as a circolar list of means and each seconds.
+	
 	'''
 
 	#variables
@@ -23,7 +25,9 @@ def greenElaboration(filepath, showVideo=False):
 	firstTime = True
 	secondsBeforeNewLine=20			# cosmetic variable to set after how many second-points it should have a new line
 	fps=0							# in a video, the fps is known
-	videoLen=0						# the number of frames in the video
+	videoLen=0						# The number of frames in the video
+	
+	secondsInTheList= 45			# The seconds window to keep
 	
 	cap = cv2.VideoCapture(filepath)
 	
@@ -41,9 +45,10 @@ def greenElaboration(filepath, showVideo=False):
 		fps = cap.get(cv2.CAP_PROP_FPS)
 		videoLen=int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 	
+	# finding the face cascade
 	face_cascade = cv2.CascadeClassifier(os.path.join(sourcePath,'haarcascade_frontalface_default.xml'))
-	print("processing the video with the green mode...")
-		
+	
+	print("processing the video with the circular green mode...")	
 	print("the fps of the video is: "+str(fps)+" , "+ "and the number of frames is: "+str(videoLen) )
 	print("please wait while it is calculating:")
 	for currentFrame in range(0, videoLen):
@@ -53,6 +58,7 @@ def greenElaboration(filepath, showVideo=False):
 			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 			#Face detection
 			faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+			# reads a new frame only if there is 1 face
 			if len(faces) == 1:
 				for (x,y,w,h) in faces:
 					reducedWidth = int(w * 0.63)
@@ -60,22 +66,20 @@ def greenElaboration(filepath, showVideo=False):
 					reduceHeigh = int(h * 0.25)
 					inizioY = int(h * 0.1)
 					fronteX = int(w - reducedWidth)
-					
-					if firstTime:
-						foreheadX = x+fronteX
-						foreheadY = y+inizioY
-						foreheadX2 = x+reducedWidth
-						foreheadY2 = y+reduceHeigh
-						#firstTime = False		
+						
+					# done for each frame because it is 
+					foreheadX = x+fronteX
+					foreheadY = y+inizioY
+					foreheadX2 = x+reducedWidth
+					foreheadY2 = y+reduceHeigh
+						
 					#forehead detection
 					fronte = frame[foreheadY: foreheadY2, foreheadX: foreheadX2]
 					face = frame[y:y+h, x+modifiedX:x+w-modifiedX]
-					green = fronte[:,:,1]
-					fronte = np.zeros((green.shape[0], green.shape[1], 3), dtype = green.dtype)
-					fronte[:,:,1] = green
+
 					means.append(np.mean(fronte[:,:,1]))
 					
-			else: 					# se non c'è una faccia come media mette la media precedente
+			else: 	#TO CHANGE?: se non c'è una faccia come media mette la media precedente
 				if len(means) > 0:
 					means.append(means[len(means)-1])
 					
@@ -83,10 +87,14 @@ def greenElaboration(filepath, showVideo=False):
 			if(currentFrame>0 and currentFrame%fps==0):
 				bpm = bpm_elaboration(means, fps)
 				bpms.append([currentFrame/fps,bpm])
-				print ('.' , end='', flush=True) 					# 1 point displayed for second
-				if(int(currentFrame/fps)%secondsBeforeNewLine==0):
+				print ('.' , end='', flush=True) 					# 1 dot displayed for second
+				if(int(currentFrame/fps)%secondsBeforeNewLine==0):	# 1 new line displayed for each secondsBeforeNewLine seconds
 					print()
-
+					
+				#deleting the first second when it has secondsInTheList secs	
+				if(len(means)>= secondsInTheList*fps):		
+					del means[0:int(fps)]
+					
 			# show the skin in video
 			if(showVideo):
 				cv2.rectangle(frame, (foreheadX, foreheadY), (foreheadX2, foreheadY2), (0,255,0), 2) # the rectangle that will show on the forehead
@@ -101,7 +109,7 @@ def greenElaboration(filepath, showVideo=False):
 			break	#just for now
 			
 	#bpm = bpm_elaboration(means, fps)
-	print()								# putting the next print after a new line having a clean text
+	print()		# putting the next print after a new line having a clean text
 	
 	# clear up the capture
 	cap.release()

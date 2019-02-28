@@ -7,18 +7,22 @@ try:
 	from WebcamVideoStream import WebcamVideoStream
 except ImportError:
 	from .WebcamVideoStream import WebcamVideoStream
+	
 class WebcamStreamForHRV(WebcamVideoStream):
 
 	def __init__(self,src=0):
 		'''
 			initialize the stream in the father init
 		'''
+		#print("[info webcamStreamForHRV] : init")
 		self.isNotSaving=True 	# a bool to break when the skin is detected
 		self.times=list()
 		super().__init__(src)
 	
+	
+	
 	def update ( self ):
-		
+		#print("[info webcamStreamForHRV] : update")
 		# keep looping infinitely until the it's ready to save
 		while self.isNotSaving: 
 			(self.grabbed, self.frame) = self.stream.read() # just read the frames
@@ -54,7 +58,13 @@ class WebcamStreamForHRV(WebcamVideoStream):
 		return self.frames[-1]
 		
 	def getFramesAndTime(self):
-		return self.frames, self.times
+		frames=self.frames
+		times=self.times
+		
+		self.frames=list()
+		self.times=list()
+		
+		return frames, times
 	
 	def isNotSaving(self):
 		return self.isNotSaving

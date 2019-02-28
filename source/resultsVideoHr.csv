@@ -1,58 +1,96 @@
 videofile_name,hr_nameMethod,mean_distance
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\0\\data.avi,hr green,6.700891191370155
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\0\\data.avi,hr pca,19.253851572834876
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\0\\data.avi,hr hrv,9.1155915023116
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\1\\data.avi,hr green,4.020994235312032
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\1\\data.avi,hr pca,5.683101650594483
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\1\\data.avi,hr hrv,8.153907637640023
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\2\\data.avi,hr green,18.393060745861263
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\2\\data.avi,hr pca,22.260350975442154
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\2\\data.avi,hr hrv,8.595272488281
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\3\\data.avi,hr green,18.06248572055625
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\3\\data.avi,hr pca,15.710728420399898
-D:\Projects\INMCA_Scarlata\video\cohface\\1\\3\\data.avi,hr hrv,9.011435078293045
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\0\\data.avi,hr green,5.108522447987386
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\0\\data.avi,hr pca,9.9662925432052
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\0\\data.avi,hr hrv,14.571108226236941
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\1\\data.avi,hr green,6.387810544419921
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\1\\data.avi,hr pca,22.782846537840197
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\1\\data.avi,hr hrv,9.657547249561386
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\2\\data.avi,hr green,13.170278223766717
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\2\\data.avi,hr pca,11.473993269480163
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\2\\data.avi,hr hrv,18.48277941620088
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\3\\data.avi,hr green,12.290526754293309
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\3\\data.avi,hr pca,15.07383531994524
-D:\Projects\INMCA_Scarlata\video\cohface\\2\\3\\data.avi,hr hrv,11.916212754311658
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\0\\data.avi,hr green,15.094083048141622
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\0\\data.avi,hr pca,10.560072412760988
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\0\\data.avi,hr hrv,11.636431398645515
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\1\\data.avi,hr green,11.312661325711048
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\1\\data.avi,hr pca,11.822121011825228
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\1\\data.avi,hr hrv,8.123566905901704
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\3\\data.avi,hr green,29.915835212695136
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\3\\data.avi,hr pca,13.556810340670486
-D:\Projects\INMCA_Scarlata\video\cohface\\3\\3\\data.avi,hr hrv,11.956825760965975
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\0\\data.avi,hr green,11.70658062612481
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\0\\data.avi,hr pca,19.731728819496343
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\0\\data.avi,hr hrv,17.505001791718332
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\1\\data.avi,hr green,7.3977570633345415
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\1\\data.avi,hr pca,26.541901136581412
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\1\\data.avi,hr hrv,26.10946093964272
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\2\\data.avi,hr green,19.284148373282832
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\2\\data.avi,hr pca,47.160572672363294
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\2\\data.avi,hr hrv,29.862322703902866
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\3\\data.avi,hr green,19.968979498126586
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\3\\data.avi,hr pca,6.3884808178895565
-D:\Projects\INMCA_Scarlata\video\cohface\\4\\3\\data.avi,hr hrv,29.29745201689156
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\0\\data.avi,hr green,16.712334714446605
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\0\\data.avi,hr pca,27.898724643599373
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\0\\data.avi,hr hrv,13.82995554012431
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\1\\data.avi,hr green,11.431110226239417
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\1\\data.avi,hr pca,20.552585165533696
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\1\\data.avi,hr hrv,15.887170079544086
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\2\\data.avi,hr green,29.445977389856314
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\2\\data.avi,hr pca,20.360515135572275
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\2\\data.avi,hr hrv,12.510066123999996
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\3\\data.avi,hr green,15.021967889069973
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\3\\data.avi,hr pca,16.867896485127844
-D:\Projects\INMCA_Scarlata\video\cohface\\5\\3\\data.avi,hr hrv,14.712298005226272
+D:\Projects\INMCA_Scarlata\video\cohface/1/0/data.avi,hr green,4.025220999223198
+D:\Projects\INMCA_Scarlata\video\cohface/1/0/data.avi,hr pca,19.991885231687693
+D:\Projects\INMCA_Scarlata\video\cohface/1/0/data.avi,hr hrv,2.9883544740843875
+D:\Projects\INMCA_Scarlata\video\cohface/1/0/data.avi,hr hrvT,4.1225172938213746
+D:\Projects\INMCA_Scarlata\video\cohface/1/0/data.avi, circ hr green,3.6744205998528
+D:\Projects\INMCA_Scarlata\video\cohface/1/1/data.avi,hr green,1.7987164295421203
+D:\Projects\INMCA_Scarlata\video\cohface/1/1/data.avi,hr pca,4.608542653941271
+D:\Projects\INMCA_Scarlata\video\cohface/1/1/data.avi,hr hrv,5.72850790027332
+D:\Projects\INMCA_Scarlata\video\cohface/1/1/data.avi,hr hrvT,6.005070596962098
+D:\Projects\INMCA_Scarlata\video\cohface/1/1/data.avi, circ hr green,2.471734653114429
+D:\Projects\INMCA_Scarlata\video\cohface/1/2/data.avi,hr green,12.915278124364802
+D:\Projects\INMCA_Scarlata\video\cohface/1/2/data.avi,hr pca,24.855277828440332
+D:\Projects\INMCA_Scarlata\video\cohface/1/2/data.avi,hr hrv,6.462295658075648
+D:\Projects\INMCA_Scarlata\video\cohface/1/2/data.avi,hr hrvT,6.800741958934373
+D:\Projects\INMCA_Scarlata\video\cohface/1/2/data.avi, circ hr green,17.56719618766331
+D:\Projects\INMCA_Scarlata\video\cohface/1/3/data.avi,hr green,4.092066219010517
+D:\Projects\INMCA_Scarlata\video\cohface/1/3/data.avi,hr pca,17.572915363300286
+D:\Projects\INMCA_Scarlata\video\cohface/1/3/data.avi,hr hrv,8.181646317274252
+D:\Projects\INMCA_Scarlata\video\cohface/1/3/data.avi,hr hrvT,8.432972091460389
+D:\Projects\INMCA_Scarlata\video\cohface/1/3/data.avi, circ hr green,4.1102046219507775
+D:\Projects\INMCA_Scarlata\video\cohface/2/0/data.avi,hr green,2.68166853681026
+D:\Projects\INMCA_Scarlata\video\cohface/2/0/data.avi,hr pca,7.8946294626101805
+D:\Projects\INMCA_Scarlata\video\cohface/2/0/data.avi,hr hrv,12.524490240029808
+D:\Projects\INMCA_Scarlata\video\cohface/2/0/data.avi,hr hrvT,12.85136358773405
+D:\Projects\INMCA_Scarlata\video\cohface/2/0/data.avi, circ hr green,4.378854221923107
+D:\Projects\INMCA_Scarlata\video\cohface/2/1/data.avi,hr green,5.828092668051514
+D:\Projects\INMCA_Scarlata\video\cohface/2/1/data.avi,hr pca,21.35930444515908
+D:\Projects\INMCA_Scarlata\video\cohface/2/1/data.avi,hr hrv,7.950964602916663
+D:\Projects\INMCA_Scarlata\video\cohface/2/1/data.avi,hr hrvT,7.950964602916663
+D:\Projects\INMCA_Scarlata\video\cohface/2/1/data.avi, circ hr green,5.828092668051514
+D:\Projects\INMCA_Scarlata\video\cohface/2/2/data.avi,hr green,1.3325856543891998
+D:\Projects\INMCA_Scarlata\video\cohface/2/2/data.avi,hr pca,9.728195450165657
+D:\Projects\INMCA_Scarlata\video\cohface/2/2/data.avi,hr hrv,13.917094972157713
+D:\Projects\INMCA_Scarlata\video\cohface/2/2/data.avi,hr hrvT,13.917094972157713
+D:\Projects\INMCA_Scarlata\video\cohface/2/2/data.avi, circ hr green,1.3325856543891998
+D:\Projects\INMCA_Scarlata\video\cohface/2/3/data.avi,hr green,10.887355722203397
+D:\Projects\INMCA_Scarlata\video\cohface/2/3/data.avi,hr pca,12.975755620233762
+D:\Projects\INMCA_Scarlata\video\cohface/2/3/data.avi,hr hrv,11.079663396982145
+D:\Projects\INMCA_Scarlata\video\cohface/2/3/data.avi,hr hrvT,10.708484147424038
+D:\Projects\INMCA_Scarlata\video\cohface/2/3/data.avi, circ hr green,10.633209304125865
+D:\Projects\INMCA_Scarlata\video\cohface/3/0/data.avi,hr green,14.18338098844614
+D:\Projects\INMCA_Scarlata\video\cohface/3/0/data.avi,hr pca,10.434236040225677
+D:\Projects\INMCA_Scarlata\video\cohface/3/0/data.avi,hr hrv,7.702885949834789
+D:\Projects\INMCA_Scarlata\video\cohface/3/0/data.avi,hr hrvT,12.447935365564868
+D:\Projects\INMCA_Scarlata\video\cohface/3/0/data.avi, circ hr green,15.94822143351242
+D:\Projects\INMCA_Scarlata\video\cohface/3/1/data.avi,hr green,8.79012932434196
+D:\Projects\INMCA_Scarlata\video\cohface/3/1/data.avi,hr pca,11.566720765561604
+D:\Projects\INMCA_Scarlata\video\cohface/3/1/data.avi,hr hrv,5.637920431872758
+D:\Projects\INMCA_Scarlata\video\cohface/3/1/data.avi,hr hrvT,7.96128149815116
+D:\Projects\INMCA_Scarlata\video\cohface/3/1/data.avi, circ hr green,18.3084535345817
+D:\Projects\INMCA_Scarlata\video\cohface/3/3/data.avi,hr green,42.22241887266905
+D:\Projects\INMCA_Scarlata\video\cohface/3/3/data.avi,hr pca,7.618302730455924
+D:\Projects\INMCA_Scarlata\video\cohface/3/3/data.avi,hr hrv,5.569424283854549
+D:\Projects\INMCA_Scarlata\video\cohface/3/3/data.avi,hr hrvT,4.52438862193686
+D:\Projects\INMCA_Scarlata\video\cohface/3/3/data.avi, circ hr green,45.50088892672722
+D:\Projects\INMCA_Scarlata\video\cohface/4/0/data.avi,hr green,8.18649536373902
+D:\Projects\INMCA_Scarlata\video\cohface/4/0/data.avi,hr pca,8.293806615513713
+D:\Projects\INMCA_Scarlata\video\cohface/4/0/data.avi,hr hrv,15.109605462832642
+D:\Projects\INMCA_Scarlata\video\cohface/4/0/data.avi,hr hrvT,15.02620439965151
+D:\Projects\INMCA_Scarlata\video\cohface/4/0/data.avi, circ hr green,8.114797749125586
+D:\Projects\INMCA_Scarlata\video\cohface/4/1/data.avi,hr green,4.946767945389871
+D:\Projects\INMCA_Scarlata\video\cohface/4/1/data.avi,hr pca,11.055841912760167
+D:\Projects\INMCA_Scarlata\video\cohface/4/1/data.avi,hr hrv,22.990935392738713
+D:\Projects\INMCA_Scarlata\video\cohface/4/1/data.avi,hr hrvT,22.72738632682733
+D:\Projects\INMCA_Scarlata\video\cohface/4/1/data.avi, circ hr green,4.967548255326934
+D:\Projects\INMCA_Scarlata\video\cohface/4/2/data.avi,hr green,1.6751196443748002
+D:\Projects\INMCA_Scarlata\video\cohface/4/2/data.avi,hr pca,47.97322381938908
+D:\Projects\INMCA_Scarlata\video\cohface/4/2/data.avi,hr hrv,22.12500599221209
+D:\Projects\INMCA_Scarlata\video\cohface/4/2/data.avi,hr hrvT,21.760980217961578
+D:\Projects\INMCA_Scarlata\video\cohface/4/2/data.avi, circ hr green,1.908874001933292
+D:\Projects\INMCA_Scarlata\video\cohface/4/3/data.avi,hr green,7.247160041542843
+D:\Projects\INMCA_Scarlata\video\cohface/4/3/data.avi,hr pca,6.988823743843947
+D:\Projects\INMCA_Scarlata\video\cohface/4/3/data.avi,hr hrv,25.539217105618846
+D:\Projects\INMCA_Scarlata\video\cohface/4/3/data.avi,hr hrvT,25.62787694674541
+D:\Projects\INMCA_Scarlata\video\cohface/4/3/data.avi, circ hr green,6.474587209385705
+D:\Projects\INMCA_Scarlata\video\cohface/5/0/data.avi,hr green,17.985935435456636
+D:\Projects\INMCA_Scarlata\video\cohface/5/0/data.avi,hr pca,15.133937527615519
+D:\Projects\INMCA_Scarlata\video\cohface/5/0/data.avi,hr hrv,11.455554174929441
+D:\Projects\INMCA_Scarlata\video\cohface/5/0/data.avi,hr hrvT,14.057673099009575
+D:\Projects\INMCA_Scarlata\video\cohface/5/0/data.avi, circ hr green,17.03550957526866
+D:\Projects\INMCA_Scarlata\video\cohface/5/1/data.avi,hr green,5.86278248166397
+D:\Projects\INMCA_Scarlata\video\cohface/5/1/data.avi,hr pca,19.072004583306683
+D:\Projects\INMCA_Scarlata\video\cohface/5/1/data.avi,hr hrv,11.12049484255091
+D:\Projects\INMCA_Scarlata\video\cohface/5/1/data.avi,hr hrvT,11.64887156911183
+D:\Projects\INMCA_Scarlata\video\cohface/5/1/data.avi, circ hr green,6.910863049302199
+D:\Projects\INMCA_Scarlata\video\cohface/5/2/data.avi,hr green,17.112880926391373
+D:\Projects\INMCA_Scarlata\video\cohface/5/2/data.avi,hr pca,13.609773656007269
+D:\Projects\INMCA_Scarlata\video\cohface/5/2/data.avi,hr hrv,5.7229318153209965
+D:\Projects\INMCA_Scarlata\video\cohface/5/2/data.avi,hr hrvT,5.738087025022691
+D:\Projects\INMCA_Scarlata\video\cohface/5/2/data.avi, circ hr green,15.743468670636302
+D:\Projects\INMCA_Scarlata\video\cohface/5/3/data.avi,hr green,6.925510869640953
+D:\Projects\INMCA_Scarlata\video\cohface/5/3/data.avi,hr pca,14.955879832535148
+D:\Projects\INMCA_Scarlata\video\cohface/5/3/data.avi,hr hrv,6.689698640721224
+D:\Projects\INMCA_Scarlata\video\cohface/5/3/data.avi,hr hrvT,13.3487710796363
+D:\Projects\INMCA_Scarlata\video\cohface/5/3/data.avi, circ hr green,8.420891707778893
